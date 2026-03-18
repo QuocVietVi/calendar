@@ -6,58 +6,23 @@
     <title>Unity WebGL Player | QuocVietCalendar</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-      <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/11.9.1/firebase-database-compat.js"></script>
-
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
-      background: black;
-      width: 100%;
-      height: 100%;
-    }
-
-    #unity-container {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    canvas {
-      width: auto !important;
-      height: 100% !important;
-      aspect-ratio: 9 / 16;
-      max-height: 100%;
-      max-width: 100%;
-      display: block;
-      background-color: black;
-    }
-  </style>
   </head>
   <body>
-  <div id="unity-container" class="unity-mobile">
-    <canvas id="unity-canvas" tabindex="-1"></canvas>
-    <div id="unity-loading-bar">
-      <div id="unity-logo"></div>
-      <div id="unity-progress-bar-empty">
-        <div id="unity-progress-bar-full"></div>
+    <div id="unity-container" class="unity-desktop">
+      <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
+      <div id="unity-loading-bar">
+        <div id="unity-logo"></div>
+        <div id="unity-progress-bar-empty">
+          <div id="unity-progress-bar-full"></div>
+        </div>
+      </div>
+      <div id="unity-warning"> </div>
+      <div id="unity-footer">
+        <div id="unity-webgl-logo"></div>
+        <div id="unity-fullscreen-button"></div>
+        <div id="unity-build-title">QuocVietCalendar</div>
       </div>
     </div>
-    <div id="unity-warning"> </div>
-    <div id="unity-footer">
-      <div id="unity-webgl-logo"></div>
-      <div id="unity-fullscreen-button"></div>
-      <div id="unity-build-title">QuocVietCalendar</div>
-    </div>
-  </div>
     <script>
 
       var container = document.querySelector("#unity-container");
@@ -90,18 +55,13 @@
         }
         updateBannerVisibility();
       }
-    // Add responsive viewport
-    var meta = document.createElement('meta');
-    meta.name = 'viewport';
-    meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-    document.getElementsByTagName('head')[0].appendChild(meta);
-    
+
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/BuildCalendar2.loader.js";
+      var loaderUrl = buildUrl + "/calendar.loader.js";
       var config = {
-        dataUrl: buildUrl + "/BuildCalendar2.data",
-        frameworkUrl: buildUrl + "/BuildCalendar2.framework.js",
-        codeUrl: buildUrl + "/BuildCalendar2.wasm",
+        dataUrl: buildUrl + "/calendar.data",
+        frameworkUrl: buildUrl + "/calendar.framework.js",
+        codeUrl: buildUrl + "/calendar.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "QuocVietCalendar",
@@ -128,7 +88,7 @@
 
         // To lower canvas resolution on mobile devices to gain some
         // performance, uncomment the following line:
-        config.devicePixelRatio = 2;
+        // config.devicePixelRatio = 1;
 
 
       } else {
@@ -147,7 +107,6 @@
           progressBarFull.style.width = 100 * progress + "%";
               }).then((unityInstance) => {
                 loadingBar.style.display = "none";
-                window.unityInstance = unityInstance;
                 fullscreenButton.onclick = () => {
                   unityInstance.SetFullscreen(1);
                 };
@@ -159,23 +118,5 @@
       document.body.appendChild(script);
 
     </script>
-    <!-- Firebase init -->
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCmIcf2hbFNazrWbNlSre_UHXfXT6x0cps",
-      authDomain: "qvcalendar-6b3f6.firebaseapp.com",
-      databaseURL: "https://qvcalendar-6b3f6-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "qvcalendar-6b3f6",
-      storageBucket: "qvcalendar-6b3f6.firebasestorage.app",
-      messagingSenderId: "1072140840456",
-      appId: "1:1072140840456:web:3c840dab61a45bf4c9abbd",
-      measurementId: "G-9NDYCSX299"
-    };
-
-    console.log("firebase before init:", typeof firebase !== "undefined");
-    const app = firebase.initializeApp(firebaseConfig);
-    const analytics = firebase.analytics(app);
-    console.log("firebase after init:", typeof firebase !== "undefined");
-  </script>
   </body>
 </html>
